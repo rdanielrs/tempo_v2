@@ -32,12 +32,9 @@ def select():
         return
 
     for c in range(len(user_processes)):
-        #print(c)
         if process['name'] == user_processes[c]['name']:
             print(c)
             print("Elemento já se encontra presente na lista.")
-            #user_processes.pop()
-            #print("Filho da puta")
             return
 
 
@@ -46,11 +43,6 @@ def select():
         json.dump(user_processes, processes)
         print(f"{process['name']} adicionado.")
 
-
-    """
-    with open('user_processes.json', 'w') as processes:
-        json.dump(user_processes, processes)
-    """
         
 
 
