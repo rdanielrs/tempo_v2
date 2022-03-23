@@ -1,6 +1,6 @@
 import os, pathlib, json
 
-mainfolder = pathlib.Path(__file__).parent.resolve()
+#mainfolder = pathlib.Path(__file__).parent.resolve()
 
 """
 O objetivo deste módulo é verificar a integridade dos arquivos do programa e fazer reparos em caso de defeito ou inexistência. 
@@ -27,7 +27,7 @@ def checkoptfile():
             "remove_process": False
         }
 
-        os.path.join(mainfolder, "options.json")
+        #os.path.join(mainfolder, "options.json")
 
         with open("options.json", "w") as options:
             json.dump(default_options, options)
@@ -42,7 +42,7 @@ def checkprocess():
     except: 
         process_list = []
 
-        os.path.join(mainfolder, "user_processes.json")
+        #os.path.join(mainfolder, "user_processes.json")
 
         with open("user_processes.json", "w") as processes:
             json.dump(process_list, processes)

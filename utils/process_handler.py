@@ -26,21 +26,33 @@ def select():
         'hours': 0
     }
 
-    if process['name'] == '.exe':
-        user_processes.pop()
-        print("Nome não existente.")
 
-    for p in user_processes:
-        print(p['name'])
-        if p['name'] == process['name']:
+    if process['name'] == '.exe':
+        print("Nome não existente.")
+        return
+
+    for c in range(len(user_processes)):
+        #print(c)
+        if process['name'] == user_processes[c]['name']:
+            print(c)
             print("Elemento já se encontra presente na lista.")
-            user_processes.pop()
+            #user_processes.pop()
+            #print("Filho da puta")
             return
-        
-    user_processes.append(process)
+
 
     with open('user_processes.json', 'w') as processes:
+        user_processes.append(process)
         json.dump(user_processes, processes)
+        print(f"{process['name']} adicionado.")
+
+
+    """
+    with open('user_processes.json', 'w') as processes:
+        json.dump(user_processes, processes)
+    """
+        
+
 
 def remove(pid):
     while True:

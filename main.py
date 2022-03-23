@@ -1,7 +1,8 @@
-import pathlib, json
+import pathlib, json, keyboard
 import filemanager
 from utils import process_handler, process_monitor
 from time import sleep
+
 
 pid = 0
 scancheck = False
@@ -24,7 +25,7 @@ if len(user_processes) == 0:
 
 while user_options['add_process'] == True:
 
-    add_input = input('Deseja adicionar um processo?[s/n] ')
+    add_input = input('Deseja adicionar mais um processo?[s/n] ')
 
     if add_input.lower() == 's':
         process_handler.select()
@@ -33,25 +34,37 @@ while user_options['add_process'] == True:
         with open('options.json', 'w') as option:
             user_options['add_process'] = False
             json.dump(user_options, option)
+
+        with open('user_processes.json', 'r') as processes:
+            user_processes = json.load(processes)
         break;
     else:
         print("Valor não reconhecido. Insira s para sim e n para não.")
         continue;
+    
 
-    with open('user_processes.json', 'w') as processes:
-        json.dump(user_processes, processes)
+    #with open('user_processes.json', 'w') as processes:
+        #json.dump(user_processes, processes)
+
+
+
 
 while user_options['remove_process'] == True:
     confirm_remove = input("Deseja remover um processo?[s/n] ")
+
     if confirm_remove.lower() == 's':
         for c in range(len(user_processes)):
             print(f"{c}. {user_processes[c]['name']}: {user_processes[c]['hours']} hora(s), {user_processes[c]['minutes']} minuto(s) e {user_processes[c]['seconds']} segundo(s)")
         
         remove_input = int(input("Insira o número do processo que deseja remover: "))
+
+
         if remove_input > len(user_processes) or remove_input < 0:
             print("Insira um valor válido.")
         else:
             process_handler.remove(remove_input)
+
+
     elif confirm_remove.lower() == 'n':
         with open("options.json") as options:
             user_options['remove_process'] = False
@@ -67,6 +80,10 @@ if len(user_processes) > 0:
         print(f"{c}. {user_processes[c]['name']}: {user_processes[c]['hours']} hora(s), {user_processes[c]['minutes']} minuto(s) e {user_processes[c]['seconds']} segundo(s)")
     print("=" * 50)
 
+print("Para fechar o programa pressione CTRL + /")
+
+#close_hotkey = keyboard.add_hotkey('ctrl+/')
+
 while True:
     try:
         process_monitor.searchProcess(user_processes[pid]['name'], pid)
@@ -77,4 +94,7 @@ while True:
 
     if pid > len(user_processes):
         pid = 0
+
+    if keyboard.read_hotkey() == 'ctrl+/':
+        break; 
     sleep(1)
