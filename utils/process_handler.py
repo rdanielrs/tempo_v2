@@ -33,7 +33,6 @@ def select():
 
     for c in range(len(user_processes)):
         if process['name'] == user_processes[c]['name']:
-            print(c)
             print("Elemento já se encontra presente na lista.")
             return
 
