@@ -1,4 +1,5 @@
 import pathlib, json, keyboard
+from tkinter import S
 import filemanager
 from utils import process_handler, process_monitor
 from time import sleep
@@ -53,8 +54,11 @@ while user_options['remove_process'] == True:
     confirm_remove = input("Deseja remover um processo?[s/n] ")
 
     if confirm_remove.lower() == 's':
+        print("=" * 50)
         for c in range(len(user_processes)):
             print(f"{c}. {user_processes[c]['name']}: {user_processes[c]['hours']} hora(s), {user_processes[c]['minutes']} minuto(s) e {user_processes[c]['seconds']} segundo(s)")
+        print("=" * 50)
+        
         
         remove_input = int(input("Insira o número do processo que deseja remover: "))
 
@@ -66,9 +70,12 @@ while user_options['remove_process'] == True:
 
 
     elif confirm_remove.lower() == 'n':
-        with open("options.json") as options:
+        with open("options.json", 'w') as options:
             user_options['remove_process'] = False
             json.dump(user_options, options)
+        
+        with open('user_processes.json') as processes:
+            user_processes = json.load(processes)
         break;
     else:
         print("Valor inválido. Insira s para sim e n para não.")
@@ -79,10 +86,6 @@ if len(user_processes) > 0:
     for c in range(len(user_processes)):
         print(f"{c}. {user_processes[c]['name']}: {user_processes[c]['hours']} hora(s), {user_processes[c]['minutes']} minuto(s) e {user_processes[c]['seconds']} segundo(s)")
     print("=" * 50)
-
-print("Para fechar o programa pressione CTRL + /")
-
-#close_hotkey = keyboard.add_hotkey('ctrl+/')
 
 while True:
     try:
@@ -95,6 +98,5 @@ while True:
     if pid > len(user_processes):
         pid = 0
 
-    if keyboard.read_hotkey() == 'ctrl+/':
-        break; 
     sleep(1)
+
