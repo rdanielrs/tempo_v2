@@ -1,3 +1,4 @@
+from logging import error
 from time import sleep 
 import psutil, json
 
@@ -10,11 +11,22 @@ Quando um processo selecionado é detectado, a função timer passa a contar o t
 
 """
 
-with open('user_processes.json', 'r') as processes:
-    user_processes = json.load(processes)
+
+def showUpdatedData():
+    with open("user_processes.json", 'r') as processes:
+        processArray = json.load(processes)
+    
+    print("Processo fechado.")
+    print("=" * 50)
+    for c in range(len(processArray)):
+        print(f"{c}. {processArray[c]['name']}: {processArray[c]['hours']} hora(s), {processArray[c]['minutes']} minuto(s) e {processArray[c]['seconds']} segundo(s)")
+    print("=" * 50)
 
 
 def timer(process, processIndex):
+    with open("user_processes.json", 'r') as processes:
+        user_processes = json.load(processes)
+
     seconds = user_processes[processIndex]['seconds']
     minutes = user_processes[processIndex]['minutes']
     hours = user_processes[processIndex]['hours']
@@ -48,9 +60,5 @@ def searchProcess(processName, processIndex):
                 timer(p, processIndex)  
                         
         except:
-            print('Processo fechado.')
-            print("=" * 50)
-            for c in range(len(user_processes)):
-                print(f"{c}. {user_processes[c]['name']}: {user_processes[c]['hours']} hora(s), {user_processes[c]['minutes']} minuto(s) e {user_processes[c]['seconds']} segundo(s)")
-            print("=" * 50)
+            showUpdatedData()
             pass;
